@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Permissão de Redirecionamento</title>
+  <title>Permissão de Localização e Redirecionamento</title>
 </head>
 <body>
-  <h1>Permissão de Redirecionamento</h1>
+  <h1>Permissão de Localização e Redirecionamento</h1>
   
-  <p>Este site requer sua permissão para redirecionar para um link externo.</p>
+  <p>Este site requer sua permissão para ligar a localização do dispositivo antes de redirecionar para um link externo.</p>
   
-  <button id="btnPermitir" onclick="redirecionar()">Permitir</button>
+  <button id="btnPermitir" onclick="solicitarPermissao()">Permitir</button>
   
   <script>
-    function redirecionar() {
-      // Verifica se o navegador suporta a API de permissões
-      if (navigator.permissions) {
-        // Solicita a permissão para redirecionar
-        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-          if (result.state === 'granted') {
-            // Permissão concedida, redireciona para o link
-            window.location.href = 'https://www.exemplo.com';
-          } else if (result.state === 'prompt') {
-            // Permissão pendente, exibe uma mensagem
-            alert('Por favor, permita o redirecionamento para acessar o link.');
-          } else {
+    function solicitarPermissao() {
+      // Verifica se o navegador suporta a API de geolocalização
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          // Permissão concedida, redireciona para o link
+          window.location.href = 'https://www.exemplo.com';
+        }, function(error) {
+          if (error.code === 1) {
             // Permissão negada, exibe uma mensagem de erro
-            alert('O redirecionamento é necessário para acessar o link. A permissão foi negada.');
+            alert('A permissão para acessar a localização foi negada. O redirecionamento é necessário para acessar o link.');
+          } else {
+            // Erro ao obter a localização, exibe uma mensagem de erro
+            alert('Ocorreu um erro ao obter a localização do dispositivo.');
           }
         });
       } else {
-        // Navegador não suporta a API de permissões, redireciona diretamente
+        // Navegador não suporta a API de geolocalização, redireciona diretamente
         window.location.href = 'https://www.exemplo.com';
       }
     }
   </script>
 </body>
 </html>
+                              
