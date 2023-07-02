@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Permissão de Redirecionamento</title>
+</head>
+<body>
+  <h1>Permissão de Redirecionamento</h1>
+  
+  <p>Este site requer sua permissão para redirecionar para um link externo.</p>
+  
+  <button id="btnPermitir" onclick="redirecionar()">Permitir</button>
+  
+  <script>
+    function redirecionar() {
+      // Verifica se o navegador suporta a API de permissões
+      if (navigator.permissions) {
+        // Solicita a permissão para redirecionar
+        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+          if (result.state === 'granted') {
+            // Permissão concedida, redireciona para o link
+            window.location.href = 'https://www.exemplo.com';
+          } else if (result.state === 'prompt') {
+            // Permissão pendente, exibe uma mensagem
+            alert('Por favor, permita o redirecionamento para acessar o link.');
+          } else {
+            // Permissão negada, exibe uma mensagem de erro
+            alert('O redirecionamento é necessário para acessar o link. A permissão foi negada.');
+          }
+        });
+      } else {
+        // Navegador não suporta a API de permissões, redireciona diretamente
+        window.location.href = 'https://www.exemplo.com';
+      }
+    }
+  </script>
+</body>
+</html>
